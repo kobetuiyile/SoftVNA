@@ -44,11 +44,11 @@ int Gettextline(FILE * file){
     for (n = 0; n < Getline(file); n++){
         fgets(buffer, 1024, file);
         if (strchr(buffer, ch) != NULL){
-            printf("#location:%d\n", n + 1);
+            //printf("#location:%d\n", n + 1);
             break;
         }
     }
-    printf("#location:%d\n", n + 1);
+    //printf("#location:%d\n", n + 1);
     fclose(file);
     return n + 1;
 
