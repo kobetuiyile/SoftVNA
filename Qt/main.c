@@ -31,11 +31,11 @@ int Getline(FILE * file){
     return count;
 }
 
-void Gettext(FILE * file){
+int Gettextline(FILE * file){
     char ch = '#';
-    char *ret;
+
     char *buffer;
-    int flag ;
+
     int n;
 
     file = fopen("/home/ke/QtWork/Aboutfile/test.S2P","r");
@@ -45,19 +45,21 @@ void Gettext(FILE * file){
         fgets(buffer, 1024, file);
         if (strchr(buffer, ch) != NULL){
             printf("#location:%d\n", n + 1);
+            break;
         }
-
     }
-
-
-
-
+    printf("#location:%d\n", n + 1);
+    fclose(file);
+    return n + 1;
 
 }
 
 void Read(FILE *file){
     char *buffer;
     int n = Getline(file);
+    int m = Gettextline(file);
+    int count = 0;
+    int flag;
     double fre[n];
     double s11_1[n];
     double s11_2[n];
@@ -84,22 +86,28 @@ void Read(FILE *file){
     buffer = (char *)malloc (Getline(file) * SIZE * sizeof (char));
 
     while (!feof(file)) {
-        //fscanf(file, "%s", buffer);
-        fgets(buffer, 1024, file);
-        sscanf(buffer, "%s %s %s %s %s %s %s %s %s", d1, d2, d3, d4, d5, d6, d7, d8, d9);
-        //printf("%s %s %s %s %s %s %s %s %s\n", d1, d2, d3, d4, d5, d6, d7, d8, d9);
 
-        fre[b] = atof(d1);
-        s11_1[b] = atof(d2);
-        s11_2[b] = atof(d3);
-        s21_1[b] = atof(d4);
-        s21_2[b] = atof(d5);
-        s12_1[b] = atof(d6);
-        s12_2[b] = atof(d7);
-        s22_1[b] = atof(d8);
-        s22_2[b] = atof(d9);
-        printf("%lf %lf %lf %lf %lf %lf %lf %lf %lf\n", fre[b], s11_1[b], s11_2[b], s21_1[b], s21_2[b], s12_1[b], s12_2[b], s22_1[b], s22_2[b]);
-        b++;
+        flag = fgetc(file);
+        if(flag == '\n')
+          count++;
+        while(count >= m){
+            //fscanf(file, "%s", buffer);
+            fgets(buffer, 1024, file);
+            sscanf(buffer, "%s %s %s %s %s %s %s %s %s", d1, d2, d3, d4, d5, d6, d7, d8, d9);
+            //printf("%s %s %s %s %s %s %s %s %s\n", d1, d2, d3, d4, d5, d6, d7, d8, d9);
+
+            fre[b] = atof(d1);
+            s11_1[b] = atof(d2);
+            s11_2[b] = atof(d3);
+            s21_1[b] = atof(d4);
+            s21_2[b] = atof(d5);
+            s12_1[b] = atof(d6);
+            s12_2[b] = atof(d7);
+            s22_1[b] = atof(d8);
+            s22_2[b] = atof(d9);
+            printf("%lf %lf %lf %lf %lf %lf %lf %lf %lf\n", fre[b], s11_1[b], s11_2[b], s21_1[b], s21_2[b], s12_1[b], s12_2[b], s22_1[b], s22_2[b]);
+            b++;
+        }
    }
 
     fclose(file);
@@ -107,9 +115,9 @@ void Read(FILE *file){
 
 int main()
 {
-    FILE *filehandle;
-    Gettext(filehandle);
-    //Read(filehandle);
+    FILE *filehandle = NULL;
+    Gettextline(filehandle);
+    Read(filehandle);
 
     puts("Is here");
 
