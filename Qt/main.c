@@ -107,6 +107,9 @@ void Read(FILE *file){
             s22_2[b] = atof(d9);
             printf("%lf %lf %lf %lf %lf %lf %lf %lf %lf\n", fre[b], s11_1[b], s11_2[b], s21_1[b], s21_2[b], s12_1[b], s12_2[b], s22_1[b], s22_2[b]);
             b++;
+
+            if (b > n - m)
+                break;
         }
    }
 
