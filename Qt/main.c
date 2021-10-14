@@ -4,18 +4,21 @@
 
 #define SIZE 500
 
-struct Data
-{ char fre;
-  char s11_1;
-  char *s11_2;
-  char *s21_1;
-  char *s21_2;
-  char *s12_1;
-  char *s12_2;
-  char *s22_1;
-  char *s22_2;
-};
+typedef struct
+{
+    double x;
+    double y;
 
+}SData;
+
+typedef struct
+{
+    char x;
+    char y;
+
+}SData_c;
+
+//Get the file line nums;
 int Getline(FILE * file){
     int flag;
     int count = 0;
@@ -31,6 +34,7 @@ int Getline(FILE * file){
     return count;
 }
 
+//Get the '#' location;
 int Gettextline(FILE * file){
     char ch = '#';
 
@@ -54,21 +58,14 @@ int Gettextline(FILE * file){
 
 }
 
+//Read the file from data line;
 void Read(FILE *file){
     char *buffer;
     int n = Getline(file);
     int m = Gettextline(file);
     int count = 0;
     int flag;
-    double fre[n];
-    double s11_1[n];
-    double s11_2[n];
-    double s21_1[n];
-    double s21_2[n];
-    double s12_1[n];
-    double s12_2[n];
-    double s22_1[n];
-    double s22_2[n];
+    double fre[n-m];
 
     char d1[50];
     char d2[50];
@@ -80,7 +77,13 @@ void Read(FILE *file){
     char d8[50];
     char d9[50];
 
+
     int b =0;
+
+    SData s11[n-m];
+    SData s21[n-m];
+    SData s12[n-m];
+    SData s22[n-m];
 
     file = fopen("/home/ke/QtWork/Aboutfile/test.S2P","r");
     buffer = (char *)malloc (Getline(file) * SIZE * sizeof (char));
@@ -96,16 +99,17 @@ void Read(FILE *file){
             sscanf(buffer, "%s %s %s %s %s %s %s %s %s", d1, d2, d3, d4, d5, d6, d7, d8, d9);
             //printf("%s %s %s %s %s %s %s %s %s\n", d1, d2, d3, d4, d5, d6, d7, d8, d9);
 
-            fre[b] = atof(d1);
-            s11_1[b] = atof(d2);
-            s11_2[b] = atof(d3);
-            s21_1[b] = atof(d4);
-            s21_2[b] = atof(d5);
-            s12_1[b] = atof(d6);
-            s12_2[b] = atof(d7);
-            s22_1[b] = atof(d8);
-            s22_2[b] = atof(d9);
-            printf("%lf %lf %lf %lf %lf %lf %lf %lf %lf\n", fre[b], s11_1[b], s11_2[b], s21_1[b], s21_2[b], s12_1[b], s12_2[b], s22_1[b], s22_2[b]);
+            fre[b]   = atof(d1);
+            s11[b].x = atof(d2);
+            s11[b].y = atof(d3);
+            s21[b].x = atof(d4);
+            s21[b].y = atof(d5);
+            s12[b].x = atof(d6);
+            s12[b].y = atof(d7);
+            s22[b].x = atof(d8);
+            s22[b].y = atof(d9);
+            printf("%lf %lf %lf %lf %lf %lf %lf %lf %lf\n", fre[b], s11[b].x, s11[b].y, s21[b].x, s21[b].y, s12[b].x, s12[b].y, s22[b].x
+                    , s22[b].y);
             b++;
 
             if (b > n - m)
